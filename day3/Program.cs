@@ -12,13 +12,13 @@ namespace day3
         static void Main(string[] args)
         {
             Console.WriteLine($"Power consumption is: {WhatsThePowerConsumption()}");
+            Console.WriteLine($"Life support is: {WhatsTheLifeSupportRating()}");
         }
 
         public static long WhatsThePowerConsumption()
         {
             var gammaString = new StringBuilder();
             var epsilonString = new StringBuilder();
-
             var numberOfBits = Numbers.First().Length;
 
             for (int i = 0; i < numberOfBits; i++)
@@ -41,6 +41,47 @@ namespace day3
             }
 
             return Convert.ToInt64(gammaString.ToString(), 2) * Convert.ToInt64(epsilonString.ToString(), 2);
+        }
+
+        public static long WhatsTheLifeSupportRating()
+        {
+            return GetOxygenRating() * GetC02Rating();
+        }
+
+        private static long GetOxygenRating()
+        {
+            var oxygenNumbers = Numbers;
+            var numberOfBits = oxygenNumbers.First().Length;
+
+            for (int i = 0; i < numberOfBits; i++)
+            {
+                if (oxygenNumbers.Count() == 1) break;
+                var currentBits = oxygenNumbers.Select(x => x[i]);
+                var ones = currentBits.Count(x => x == '1');
+                var zeros = currentBits.Count(x => x == '0');
+                var mostCommon = ones >= zeros ? '1' : '0';
+                oxygenNumbers = oxygenNumbers.Where(x => x[i] == mostCommon).ToList();
+            }
+
+            return Convert.ToInt64(oxygenNumbers.First(), 2);
+        }
+
+        private static long GetC02Rating()
+        {
+            var c02Numbers = Numbers;
+            var numberOfBits = c02Numbers.First().Length;
+
+            for (int i = 0; i < numberOfBits; i++)
+            {
+                if (c02Numbers.Count() == 1) break;
+                var currentBits = c02Numbers.Select(x => x[i]);
+                var ones = currentBits.Count(x => x == '1');
+                var zeros = currentBits.Count(x => x == '0');
+                var leastCommon = zeros <= ones ? '0' : '1';
+                c02Numbers = c02Numbers.Where(x => x[i] == leastCommon).ToList();
+            }
+
+            return Convert.ToInt64(c02Numbers.First(), 2);
         }
 
     }
