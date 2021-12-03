@@ -29,6 +29,7 @@ namespace day2
             var depth = 0;
             var aim = 0;
 
+            //I couldn't work this nonsense out and got frustrated and implemented it badly
             foreach (var fuckingStupidShit in Directions)
             {
                 var number = int.Parse(fuckingStupidShit.Split(' ')[1]);
