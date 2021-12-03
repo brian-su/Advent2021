@@ -11,8 +11,8 @@ namespace day3
 
         static void Main(string[] args)
         {
-            Console.WriteLine($"Power consumption is: {WhatsThePowerConsumption()}");
-            Console.WriteLine($"Life support is: {WhatsTheLifeSupportRating()}");
+            Console.WriteLine($"Power consumption is: {WhatsThePowerConsumption()}"); //3895776
+            Console.WriteLine($"Life support is: {WhatsTheLifeSupportRating()}"); //7928162
         }
 
         public static long WhatsThePowerConsumption()
@@ -24,20 +24,11 @@ namespace day3
             for (int i = 0; i < numberOfBits; i++)
             {
                 var currentBits = Numbers.Select(x => x[i]);
-                var ones = currentBits.Count(x => x == '1');
-                var zeros = currentBits.Count(x => x == '0');
+                var mostCommon = currentBits.Count(x => x == '1') >= currentBits.Count(x => x == '0') ? '1' : '0';
+                var leastCommon = mostCommon == '1' ? '0' : '1';
 
-                //This is minging                
-                if (ones > zeros)
-                {
-                    gammaString.Append("1");
-                    epsilonString.Append("0");
-                }
-                else
-                {
-                    gammaString.Append("0");
-                    epsilonString.Append("1");
-                }
+                gammaString.Append(mostCommon);
+                epsilonString.Append(leastCommon);
             }
 
             return Convert.ToInt64(gammaString.ToString(), 2) * Convert.ToInt64(epsilonString.ToString(), 2);
@@ -57,9 +48,7 @@ namespace day3
             {
                 if (oxygenNumbers.Count() == 1) break;
                 var currentBits = oxygenNumbers.Select(x => x[i]);
-                var ones = currentBits.Count(x => x == '1');
-                var zeros = currentBits.Count(x => x == '0');
-                var mostCommon = ones >= zeros ? '1' : '0';
+                var mostCommon = currentBits.Count(x => x == '1') >= currentBits.Count(x => x == '0') ? '1' : '0';
                 oxygenNumbers = oxygenNumbers.Where(x => x[i] == mostCommon).ToList();
             }
 
@@ -75,9 +64,7 @@ namespace day3
             {
                 if (c02Numbers.Count() == 1) break;
                 var currentBits = c02Numbers.Select(x => x[i]);
-                var ones = currentBits.Count(x => x == '1');
-                var zeros = currentBits.Count(x => x == '0');
-                var leastCommon = zeros <= ones ? '0' : '1';
+                var leastCommon = currentBits.Count(x => x == '0') <= currentBits.Count(x => x == '1') ? '0' : '1';
                 c02Numbers = c02Numbers.Where(x => x[i] == leastCommon).ToList();
             }
 
